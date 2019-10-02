@@ -6,11 +6,10 @@ function type(data) {
 
 const deepArr = ['object', 'function', 'date', 'array', 'regexp'] // 可以拷贝的对象类型
 
-const deepObj = { // 拷贝的对象的一些初始化操作
+const deepObj = {
+  // 拷贝的对象的一些初始化操作
   object: () => ({}),
-  function: fn => (...args) => {
-    return fn(...args)
-  },
+  function: fn => (...args) => fn(...args),
   date: date => new Date(date),
   array: () => [],
   regexp: reg => new RegExp(reg.source, reg.flags)

@@ -19,14 +19,14 @@ const deepCopy = (param, p, cache = new Map()) => {
   if (deepArr.includes(type(param))) {
     // 生成不同对象的实例
     const result = deepObj[type(param)](param)
-    cache.get(result) && cache.set(result, result)
+    !cache.get(param) && cache.set(param, result)
     // 复制每一个属性的
     for (const key in param) {
       if (param.hasOwnProperty(key)) {
         result[key] = deepArr.includes(type(param[key]))
           ? p === param[key] // 环检测
-            ? cache.get(param[key]) // 赋值缓存的值
-            : deepCopy(param[key]) // 属性是对象的话继续执行深拷贝函数
+            ? cache.get(p) // 赋值缓存的值
+            : deepCopy(param[key], p, cache) // 属性是对象的话继续执行深拷贝函数
           : param[key] // 每一个属性复制
       }
     }
